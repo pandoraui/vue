@@ -1,3 +1,9 @@
+## 学习文档
+
+- [Vue.js：轻量高效的前端组件化方案](http://www.csdn.net/article/1970-01-01/2825439)
+- [Vue api 中文文档](http://cn.vuejs.org/api/)
+
+
 <p align="center"><a href="http://vuejs.org" target="_blank"><img width="100"src="http://vuejs.org/images/logo.png"></a></p>
 
 <p align="center">
