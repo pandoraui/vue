@@ -6,6 +6,7 @@
 
 ## 项目实现
 
+- [vue-spa-demo](https://github.com/lazyhero/vue-spa-demo)
 - [Vue-cnodejs](https://github.com/shinygang/Vue-cnodejs)
 - [awesome-vue](https://github.com/vuejs/awesome-vue)
 - [vue-weui](https://github.com/aidenzou/vue-weui)
