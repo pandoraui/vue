@@ -55,7 +55,7 @@ p.put = function (key, value) {
     this.tail = entry
     this.size++
   }
-  //不论是否已存在，都更新 value
+  //无论数据是否已缓存，都更新 value
   entry.value = value
 
   return removed
