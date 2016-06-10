@@ -33,14 +33,14 @@ var p = Cache.prototype
 
 p.put = function (key, value) {
   var removed
-  //如果溢出最大限定，返回清除的数据项，否则返回 undefined
-  if (this.size === this.limit) {
-    removed = this.shift()
-  }
 
   //查询是否已经存在
   var entry = this.get(key, true)
   if (!entry) {
+    //如果溢出最大限定，返回清除的数据项，否则返回 undefined
+    if (this.size === this.limit) {
+      removed = this.shift()
+    }
     entry = {
       key: key
     }

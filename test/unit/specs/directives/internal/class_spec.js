@@ -8,42 +8,42 @@ describe(':class', function () {
   })
 
   it('plain string', function () {
-    el.className = 'haha'
+    el.className = 'foo'
     var dir = _.extend({ el: el }, def)
-    dir.update('test')
-    expect(el.className).toBe('haha test')
-    dir.update('what now test')
-    expect(el.className).toBe('haha what now test')
-    dir.update('ok cool')
-    expect(el.className).toBe('haha ok cool')
+    dir.update('bar')
+    expect(el.className).toBe('foo bar')
+    dir.update('baz qux')
+    expect(el.className).toBe('foo baz qux')
+    dir.update('qux')
+    expect(el.className).toBe('foo qux')
     dir.update()
-    expect(el.className).toBe('haha')
+    expect(el.className).toBe('foo')
   })
 
   it('object value', function () {
-    el.className = 'hoho'
+    el.className = 'foo'
     var dir = _.extend({ el: el }, def)
     dir.update({
-      a: true,
-      b: false
+      bar: true,
+      baz: false
     })
-    expect(el.className).toBe('hoho a')
+    expect(el.className).toBe('foo bar')
     dir.update({
-      b: true
+      baz: true
     })
-    expect(el.className).toBe('hoho b')
+    expect(el.className).toBe('foo baz')
     dir.update(null)
-    expect(el.className).toBe('hoho')
+    expect(el.className).toBe('foo')
 
     dir.update({
-      'a b': true,
-      c: false
+      'bar baz': true,
+      qux: false
     })
-    expect(el.className).toBe('hoho a b')
+    expect(el.className).toBe('foo bar baz')
     dir.update({
-      c: true
+      qux: true
     })
-    expect(el.className).toBe('hoho c')
+    expect(el.className).toBe('foo qux')
   })
 
   it('array value', function () {
@@ -52,7 +52,9 @@ describe(':class', function () {
     dir.update(['b', 'c'])
     expect(el.className).toBe('a b c')
     dir.update(['d', 'c'])
-    expect(el.className).toBe('a d c')
+    expect(el.className).toBe('a c d')
+    dir.update(['w', 'x y z'])
+    expect(el.className).toBe('a w x y z')
     dir.update()
     expect(el.className).toBe('a')
     // test mutating array
@@ -64,14 +66,14 @@ describe(':class', function () {
     dir.update(arr)
     expect(el.className).toBe('a f')
     // test array with objects
-    dir.update(['x', {y: true, z: true}])
+    dir.update(['x', { y: true, z: true }])
     expect(el.className).toBe('a x y z')
-    dir.update(['x', {y: true, z: false}])
+    dir.update(['x', { y: true, z: false }])
     expect(el.className).toBe('a x y')
-    dir.update(['f', {z: true}])
+    dir.update(['f', { z: true }])
     expect(el.className).toBe('a f z')
-    dir.update(['l', 'f', {n: true, z: true}])
-    expect(el.className).toBe('a l f n z')
+    dir.update(['l', 'f', { n: true, z: true }])
+    expect(el.className).toBe('a f z l n')
     dir.update(['x', {}])
     expect(el.className).toBe('a x')
     dir.update()

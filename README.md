@@ -23,9 +23,10 @@
   <a href="https://circleci.com/gh/vuejs/vue/tree/master"><img src="https://img.shields.io/circleci/project/vuejs/vue/master.svg" alt="Build Status"></a>
   <a href="https://codecov.io/github/vuejs/vue?branch=master"><img src="https://img.shields.io/codecov/c/github/vuejs/vue/dev.svg" alt="Coverage Status"></a>
   <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/dt/vue.svg" alt="Downloads"></a>
-  <br>
   <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/v/vue.svg" alt="Version"></a>
   <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/l/vue.svg" alt="License"></a>
+  <br>
+  <a href="https://saucelabs.com/u/vuejs"><img src="https://saucelabs.com/browser-matrix/vuejs.svg" alt="Sauce Test Status"></a>
 </p>
 
 ## Supporting Vue.js
@@ -36,6 +37,18 @@ Vue.js is an MIT-licensed open source project. Its ongoing development is made p
 
 <a href="https://strikingly.com/s/careers?utm_source=v">
   <img width="300px" src="https://raw.githubusercontent.com/vuejs/vuejs.org/master/themes/vue/source/images/strikingly.png">
+</a>
+
+<a href="http://www.itunescn.com/">
+  <img width="200px" src="https://www.zymmm.com/content/images/2016/05/itunescn-logo-4.png">
+</a>
+
+<a href="https://jsfiddle.net/">
+  <img width="200px" src="https://raw.githubusercontent.com/vuejs/vuejs.org/master/themes/vue/source/images/jsfiddle.png">
+</a>
+
+<a href="https://laravel.com/">
+  <img width="200px" src="https://raw.githubusercontent.com/vuejs/vuejs.org/master/themes/vue/source/images/laravel.png">
 </a>
 
 ## Intro

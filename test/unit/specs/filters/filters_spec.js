@@ -6,6 +6,7 @@ describe('Filters', function () {
     var obj = {a: {b: 2}}
     expect(filter(obj)).toBe(JSON.stringify(obj, null, 2))
     expect(filter(obj, 4)).toBe(JSON.stringify(obj, null, 4))
+    expect(filter(obj, 0)).toBe(JSON.stringify(obj, null, 0))
     // plain string
     expect(filter('1234')).toBe('1234')
   })
@@ -67,6 +68,12 @@ describe('Filters', function () {
     expect(filter(2134, '@')).toBe('@2,134.00')
     // no symbol
     expect(filter(2134, '')).toBe('2,134.00')
+    // decimal places
+    expect(filter(1234, '$', 0)).toBe('$1,234')
+    // if decimal places are present, currency is required
+    expect(filter(1234, '', 2)).toBe('1,234.00')
+    expect(filter(123.4, '$', 3)).toBe('$123.400')
+    expect(filter(-12345, 'VND', 0)).toBe('-VND12,345')
     // falsy, infinity and 0
     expect(filter(0)).toBe('$0.00')
     expect(filter(false)).toBe('')

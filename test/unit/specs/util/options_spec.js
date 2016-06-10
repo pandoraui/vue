@@ -140,7 +140,7 @@ describe('Util - Option merging', function () {
       components: null
     }, {
       components: {
-        test: { template: 'hi' }
+        test: { template: 'foo' }
       }
     })
     expect(typeof res.components.test).toBe('function')
@@ -152,7 +152,7 @@ describe('Util - Option merging', function () {
       components: null
     }, {
       components: {
-        a: { template: 'hi' }
+        a: { template: 'foo' }
       }
     })
     expect('Do not use built-in or reserved HTML elements as component id: a').toHaveBeenWarned()
@@ -160,7 +160,7 @@ describe('Util - Option merging', function () {
       components: null
     }, {
       components: {
-        slot: { template: 'hi' }
+        slot: { template: 'foo' }
       }
     })
     expect('Do not use built-in or reserved HTML elements as component id: slot').toHaveBeenWarned()
@@ -278,6 +278,20 @@ describe('Util - Option merging', function () {
     expect(Object.getOwnPropertyDescriptor(data, 'b').get).toBeTruthy()
   })
 
+  it('extends', function () {
+    var f1 = function () {}
+    var f2 = function () {}
+    var f3 = function () {}
+    var componentA = Vue.extend({ template: 'foo', methods: { f1: f1, f2: function () {} }})
+    var componentB = { extends: componentA, methods: { f2: f2 }}
+    var componentC = { extends: componentB, template: 'bar', methods: { f3: f3 }}
+    var res = merge({}, componentC)
+    expect(res.template).toBe('bar')
+    expect(res.methods.f1).toBe(f1)
+    expect(res.methods.f2).toBe(f2)
+    expect(res.methods.f3).toBe(f3)
+  })
+
   it('mixins', function () {
     var a = {}
     var b = {}
@@ -289,12 +303,14 @@ describe('Util - Option merging', function () {
     var f4 = function () {}
     var mixinA = { a: 1, directives: { a: a }, created: f2 }
     var mixinB = { b: 1, directives: { b: b }, created: f3 }
+    var mixinC = Vue.extend({ c: 1 })
     var res = merge(
       { a: 2, directives: { c: c }, created: [f1] },
-      { directives: { d: d }, mixins: [mixinA, mixinB], created: f4 }
+      { directives: { d: d }, mixins: [mixinA, mixinB, mixinC], created: f4 }
     )
     expect(res.a).toBe(1)
     expect(res.b).toBe(1)
+    expect(res.c).toBe(1)
     expect(res.directives.a).toBe(a)
     expect(res.directives.b).toBe(b)
     expect(res.directives.c).toBe(c)
@@ -355,13 +371,13 @@ describe('Util - Option resolveAsset', function () {
       data: {},
       components: {
         'hyphenated-component': {
-          template: 'hi'
+          template: 'foo'
         },
         camelCasedComponent: {
-          template: 'yo'
+          template: 'bar'
         },
         PascalCasedComponent: {
-          template: 'ho'
+          template: 'baz'
         }
       }
     })

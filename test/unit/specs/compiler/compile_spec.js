@@ -16,6 +16,7 @@ describe('Compile', function () {
     directiveBind = jasmine.createSpy('bind')
     directiveTeardown = jasmine.createSpy('teardown')
     vm = {
+      $options: {},
       _data: {},
       _directives: [],
       _bindDir: function (descriptor, node) {
@@ -51,7 +52,7 @@ describe('Compile', function () {
 
   it('normal directives', function () {
     el.setAttribute('v-a', 'b')
-    el.innerHTML = '<p v-a:hello.a.b="a" v-b="1">hello</p><div v-b.literal="hi"></div>'
+    el.innerHTML = '<p v-a:hello.a.b="a" v-b="1">hello</p><div v-b.literal="foo"></div>'
     var defA = { priority: 1 }
     var defB = { priority: 2 }
     var options = _.mergeOptions(Vue.options, {
@@ -95,7 +96,7 @@ describe('Compile', function () {
     // 4 (explicit literal)
     args = vm._bindDir.calls.argsFor(3)
     expect(args[0].name).toBe('b')
-    expect(args[0].expression).toBe('hi')
+    expect(args[0].expression).toBe('foo')
     expect(args[0].def).toBe(defB)
     expect(args[0].modifiers.literal).toBe(true)
     expect(args[1]).toBe(el.lastChild)
@@ -219,7 +220,7 @@ describe('Compile', function () {
   })
 
   it('inline html', function () {
-    data.html = '<div>yoyoyo</div>'
+    data.html = '<div>foo</div>'
     el.innerHTML = '{{{html}}} {{{*html}}}'
     var htmlDef = Vue.options.directives.html
     var linker = compile(el, Vue.options)
@@ -230,7 +231,7 @@ describe('Compile', function () {
     expect(htmlArgs[0].expression).toBe('html')
     expect(htmlArgs[0].def).toBe(htmlDef)
     // with placeholder comments & interpolated one-time html
-    expect(el.innerHTML).toBe('<!--v-html--> <div>yoyoyo</div>')
+    expect(el.innerHTML).toBe('<!--v-html--> <div>foo</div>')
   })
 
   it('terminal directives', function () {
@@ -334,7 +335,7 @@ describe('Compile', function () {
       ':test-two-way.sync="a" ' +
       ':two-way-warn.sync="a + 1" ' +
       ':test-one-time.once="a" ' +
-      ':literal-with-filter="\'HI\' | lowercase"' +
+      ':literal-with-filter="\'FOO\' | lowercase"' +
       '></div>'
     compiler.compileAndLinkProps(vm, el.firstChild, props)
     // check bindDir calls:
@@ -369,7 +370,7 @@ describe('Compile', function () {
     prop = args[0].prop
     expect(args[0].name).toBe('prop')
     expect(prop.path).toBe('literalWithFilter')
-    expect(prop.parentPath).toBe("'HI'")
+    expect(prop.parentPath).toBe("'FOO'")
     expect(prop.filters.length).toBe(1)
     expect(prop.mode).toBe(bindingModes.ONE_WAY)
   })
@@ -378,11 +379,11 @@ describe('Compile', function () {
     // temporarily remove vm.$parent
     var context = vm._context
     vm._context = null
-    el.setAttribute('v-bind:a', '"hi"')
+    el.setAttribute('v-bind:a', '"foo"')
     el.setAttribute(':b', '[1,2,3]')
     compiler.compileAndLinkProps(vm, el, { a: null, b: null })
     expect(vm._bindDir.calls.count()).toBe(0)
-    expect(vm.a).toBe('hi')
+    expect(vm.a).toBe('foo')
     expect(vm.b.join(',')).toBe('1,2,3')
     // restore parent mock
     vm._context = context
@@ -453,7 +454,7 @@ describe('Compile', function () {
       el: el,
       template: '<test :msg="msg"></test>',
       data: {
-        msg: 'hi'
+        msg: 'foo'
       },
       components: {
         test: {
@@ -482,7 +483,7 @@ describe('Compile', function () {
       },
       components: {
         test: {
-          template: 'hi'
+          template: 'foo'
         }
       }
     })
@@ -629,7 +630,7 @@ describe('Compile', function () {
       el: el,
       template: '<div class="{{a}}" :class="bcd"></div>',
       data: {
-        a: 'hi'
+        a: 'foo'
       }
     })
     expect('Do not mix mustache interpolation and v-bind').toHaveBeenWarned()
@@ -638,7 +639,7 @@ describe('Compile', function () {
   it('warn directives on fragment instances', function () {
     new Vue({
       el: el,
-      template: '<test id="hi" class="ok" :prop="123"></test>',
+      template: '<test id="foo" class="ok" :prop="123"></test>',
       components: {
         test: {
           replace: true,

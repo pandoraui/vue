@@ -9,16 +9,6 @@ describe('Template Parser', function () {
     expect(res).toBe(frag)
   })
 
-  it('should return content if argument is a valid template node', function () {
-    var templateNode = document.createElement('template')
-    if (!templateNode.content) {
-      // mock the content
-      templateNode.content = document.createDocumentFragment()
-    }
-    var res = parse(templateNode)
-    expect(res).toBe(templateNode.content)
-  })
-
   it('should parse if argument is a template string', function () {
     var res = parse(testString)
     expect(res.nodeType).toBe(11)
@@ -33,11 +23,18 @@ describe('Template Parser', function () {
     expect(res.firstChild.nodeType).toBe(3) // Text node
   })
 
+  it('should work if the template string doesn\'t contain tags but contains comments', function () {
+    var res = parse('<!-- yo -->hello<!-- yo -->')
+    expect(res.childNodes.length).toBe(1)
+    expect(res.firstChild.nodeType).toBe(3) // text node
+    expect(res.firstChild.nodeValue).toBe('hello')
+  })
+
   it('should handle string that contains html entities', function () {
-    var res = parse('hi&lt;hi')
+    var res = parse('foo&lt;bar')
     expect(res.nodeType).toBe(11)
     expect(res.childNodes.length).toBe(1)
-    expect(res.firstChild.nodeValue).toBe('hi<hi')
+    expect(res.firstChild.nodeValue).toBe('foo<bar')
     // #1330
     res = parse('hello &#x2F; hello')
     expect(res.nodeType).toBe(11)
@@ -48,6 +45,15 @@ describe('Template Parser', function () {
     expect(res.nodeType).toBe(11)
     expect(res.childNodes.length).toBe(1)
     expect(res.firstChild.nodeValue).toBe('')
+  })
+
+  it('should parse innerHTML if argument is a template node', function () {
+    var templateNode = document.createElement('template')
+    templateNode.innerHTML = testString
+    var res = parse(templateNode)
+    expect(res.nodeType).toBe(11)
+    expect(res.childNodes.length).toBe(2)
+    expect(res.querySelector('.test').textContent).toBe('world')
   })
 
   it('should parse textContent if argument is a script node', function () {
