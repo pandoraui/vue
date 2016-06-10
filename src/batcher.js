@@ -13,11 +13,11 @@ import {
 // state.
 
 var queueIndex
-var queue = []
+var queue = []    //dom更新队列
 var userQueue = []
-var has = {}
+var has = {}      //去重
 var circular = {}
-var waiting = false
+var waiting = false     //不重复创建nextTick
 var internalQueueDepleted = false
 
 /**
@@ -51,6 +51,7 @@ function flushBatcherQueue () {
 /**
  * Run the watchers in a single queue.
  *
+ * 运行watcher对象 更新
  * @param {Array} queue
  */
 
@@ -82,6 +83,7 @@ function runBatcherQueue (queue) {
  * Jobs with duplicate IDs will be skipped unless it's
  * pushed when the queue is being flushed.
  *
+ * 将watcher对象加入更新队列
  * @param {Watcher} watcher
  *   properties:
  *   - {Number} id
@@ -103,6 +105,7 @@ export function pushWatcher (watcher) {
       has[id] = q.length
       q.push(watcher)
       // queue the flush
+      // 通过异步收集更新watcher对象
       if (!waiting) {
         waiting = true
         nextTick(flushBatcherQueue)

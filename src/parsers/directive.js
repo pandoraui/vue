@@ -92,7 +92,7 @@ export function parseDirective (s) {
     prev = c
     c = str.charCodeAt(i)
     if (inSingle) {
-      // check single quote
+      // check single quote   // 0x5C \ 反斜杠
       if (c === 0x27 && prev !== 0x5C) inSingle = !inSingle
     } else if (inDouble) {
       // check double quote

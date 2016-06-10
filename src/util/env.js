@@ -51,6 +51,10 @@ export {
 }
 
 /**
+ * 延时任务到异步执行
+ * 利用MutationObserver
+ * 否则用setTimeout
+ *
  * Defer a task to execute it asynchronously. Ideally this
  * should be executed as a microtask, so we leverage
  * MutationObserver if it's available, and fallback to
@@ -78,6 +82,7 @@ export const nextTick = (function () {
     var counter = 1
     var observer = new MutationObserver(nextTickHandler)
     var textNode = document.createTextNode(counter)
+    //节点内容或节点文本的变动
     observer.observe(textNode, {
       characterData: true
     })
