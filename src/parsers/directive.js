@@ -75,6 +75,9 @@ function processFilterArg (arg) {
  * @return {Object}
  */
 
+// 指令解析
+// HTML ASCII 参考手册 http://w3school.com.cn/tags/html_ref_ascii.asp
+// ASCII码表在线查询 http://www.litefeel.com/tools/ascii.php
 export function parseDirective (s) {
   var hit = cache.get(s)
   if (hit) {
@@ -90,6 +93,8 @@ export function parseDirective (s) {
 
   for (i = 0, l = str.length; i < l; i++) {
     prev = c
+
+    // 转化字符的 Unicode 编码
     c = str.charCodeAt(i)
     if (inSingle) {
       // check single quote   // 0x5C \ 反斜杠

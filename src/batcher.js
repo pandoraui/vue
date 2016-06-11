@@ -12,6 +12,15 @@ import {
 // triggered, the DOM would have already been in updated
 // state.
 
+/**
+ * watcher批量处理器
+ *
+ * 有两个分开的队列
+ * 一个用于指令directive更新
+ * 一个是用来给用户注册的$watch()
+ *
+ */
+
 var queue = []    //dom更新队列
 var userQueue = []
 var has = {}      //去重
@@ -32,6 +41,7 @@ function resetBatcherState () {
 
 /**
  * Flush both queues and run the watchers.
+ * 冲洗两个队列和运行观察对象
  */
 
 function flushBatcherQueue () {
@@ -54,7 +64,7 @@ function flushBatcherQueue () {
  * Run the watchers in a single queue.
  *
  * 运行watcher对象 更新
- * @param {Array} queue
+ * @param {Array} queue  watcher对象合集
  */
 
 function runBatcherQueue (queue) {
@@ -63,6 +73,7 @@ function runBatcherQueue (queue) {
   for (let i = 0; i < queue.length; i++) {
     var watcher = queue[i]
     var id = watcher.id
+    // 清空标记
     has[id] = null
     watcher.run()
     // in dev build, check and stop circular updates.
@@ -86,7 +97,7 @@ function runBatcherQueue (queue) {
  * Jobs with duplicate IDs will be skipped unless it's
  * pushed when the queue is being flushed.
  *
- * 将watcher对象加入更新队列
+ * 增加一个watcher对象到这个watcher队列
  * @param {Watcher} watcher
  *   properties:
  *   - {Number} id
@@ -101,8 +112,9 @@ export function pushWatcher (watcher) {
       ? userQueue
       : queue
     has[id] = q.length
+    // 指令队列
     q.push(watcher)
-    // queue the flush
+    // queue the flush 更新队列
     if (!waiting) {
       waiting = true
       nextTick(flushBatcherQueue)

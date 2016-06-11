@@ -1,4 +1,6 @@
 import Vue from './instance/vue'
+
+//实例扩展的一些api接口
 import installGlobalAPI from './global-api'
 import { inBrowser, devtools } from './util/index'
 import config from './config'
